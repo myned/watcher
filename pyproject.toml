@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "watcher"
+version = "0.1.0"
+description = "Watcher Discord Bot"
+authors = ["Myned <dev@myned.dev>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "~3.10"
+toml = "*"
+uvloop = "*"
+sqlitedict = "*"
+hikari = {extras = ["speedups"], version = "*"}
+hikari-lightbulb = "*"
+
+[tool.poetry.dev-dependencies]
+black = "*"
+
+[tool.black]
+line-length = 120
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
