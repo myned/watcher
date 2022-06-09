@@ -36,12 +36,26 @@ async def on_message(event):
     if event.is_bot or event.guild_id != c.config["guild"]:
         return
 
-    db[event.author_id] = event.message.timestamp  # or datetime.datetime.utcnow()
+    db[event.author_id] = dt.datetime.now(dt.timezone.utc)  # or event.message.timestamp
 
     if c.config["active"] and c.config["active"] not in event.member.role_ids:
         await event.member.add_role(c.config["active"])
     if c.config["inactive"] and c.config["inactive"] in event.member.role_ids:
         await event.member.remove_role(c.config["inactive"])
+
+
+# Listener for voice state
+@plugin.listener(hikari.VoiceStateUpdateEvent)
+async def on_voice(event):
+    if event.state.member.is_bot or event.guild_id != c.config["guild"]:
+        return
+
+    db[event.state.user_id] = dt.datetime.now(dt.timezone.utc)
+
+    if c.config["active"] and c.config["active"] not in event.state.member.role_ids:
+        await event.state.member.add_role(c.config["active"])
+    if c.config["inactive"] and c.config["inactive"] in event.state.member.role_ids:
+        await event.state.member.remove_role(c.config["inactive"])
 
 
 def load(bot):
