@@ -33,7 +33,7 @@ async def on_ready(event):
 # Listener for guild messages
 @plugin.listener(hikari.GuildMessageCreateEvent)
 async def on_message(event):
-    if event.is_bot or event.guild_id != c.config["guild"]:
+    if event.is_bot or event.guild_id != c.config["guild"] or c.config["exclude"] in event.member.role_ids:
         return
 
     db[event.author_id] = dt.datetime.now(dt.timezone.utc)  # or event.message.timestamp
@@ -47,7 +47,11 @@ async def on_message(event):
 # Listener for voice state
 @plugin.listener(hikari.VoiceStateUpdateEvent)
 async def on_voice(event):
-    if event.state.member.is_bot or event.guild_id != c.config["guild"]:
+    if (
+        event.state.member.is_bot
+        or event.guild_id != c.config["guild"]
+        or c.config["exclude"] in event.state.member.role_ids
+    ):
         return
 
     db[event.state.user_id] = dt.datetime.now(dt.timezone.utc)

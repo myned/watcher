@@ -14,6 +14,7 @@ db = "watcher.db" # sqlite3 db filepath
 guild = 0 # guild id to watch
 active = 0 # active role id
 inactive = 0 # inactive role id
+exclude = 0 # role id to exclude from activity checks
 duration = 0 # time in seconds before considered inactive
 """
 
