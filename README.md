@@ -74,5 +74,5 @@ rm -rf Watcher
 5. Create a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) from the fork
 ## Credits
 [hikari](https://github.com/hikari-py/hikari)\
-[hikari-lightbulb](https://github.com/tandemdude/hikari-lightbulb)
+[hikari-lightbulb](https://github.com/tandemdude/hikari-lightbulb)\
 [hikari-miru](https://github.com/HyperGH/hikari-miru)
