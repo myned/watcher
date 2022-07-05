@@ -1,6 +1,7 @@
 import os
 import hikari
 import lightbulb
+import miru
 from lightbulb.ext import tasks
 
 import config as c
@@ -27,6 +28,7 @@ async def on_error(event):
     raise event.exception
 
 
+miru.load(bot)
 tasks.load(bot)
 bot.load_extensions_from("commands", "tasks")
 bot.run(activity=hikari.Activity(name=c.config["activity"], type=c.ACTIVITY) if c.config["activity"] else None)
