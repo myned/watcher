@@ -1,4 +1,5 @@
 import toml
+import sqlitedict
 import hikari
 
 
@@ -26,3 +27,5 @@ except FileNotFoundError:
         f.write(CONFIG)
         print("config.toml created with default values. Restart when modified")
         exit()
+
+db = sqlitedict.SqliteDict(config["db"], tablename=str(config["guild"]), autocommit=True)

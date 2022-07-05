@@ -1,5 +1,4 @@
 import datetime as dt
-import sqlitedict
 import hikari
 import lightbulb
 from lightbulb.ext import tasks
@@ -8,13 +7,12 @@ import config as c
 
 
 plugin = lightbulb.Plugin("activity")
-db = sqlitedict.SqliteDict(c.config["db"], tablename=str(c.config["guild"]), autocommit=True)
 
 
 # Check every minute if inactive
 @tasks.task(s=60)
 async def check_activity():
-    for author_id, timestamp in db.items():
+    for author_id, timestamp in c.db.items():
         if dt.datetime.now(dt.timezone.utc) - timestamp >= dt.timedelta(seconds=c.config["duration"]):
             member = plugin.bot.cache.get_member(c.config["guild"], author_id) or await plugin.bot.rest.fetch_member(
                 c.config["guild"], author_id
@@ -38,7 +36,7 @@ async def on_message(event):
     if event.is_bot or event.guild_id != c.config["guild"] or c.config["exclude"] in event.member.role_ids:
         return
 
-    db[event.author_id] = dt.datetime.now(dt.timezone.utc)  # or event.message.timestamp
+    c.db[event.author_id] = dt.datetime.now(dt.timezone.utc)  # or event.message.timestamp
 
     if c.config["active"] and c.config["active"] not in event.member.role_ids:
         await event.member.add_role(c.config["active"])
@@ -56,7 +54,7 @@ async def on_voice(event):
     ):
         return
 
-    db[event.state.user_id] = dt.datetime.now(dt.timezone.utc)
+    c.db[event.state.user_id] = dt.datetime.now(dt.timezone.utc)
 
     if c.config["active"] and c.config["active"] not in event.state.member.role_ids:
         await event.state.member.add_role(c.config["active"])

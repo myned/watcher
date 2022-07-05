@@ -12,6 +12,7 @@ uvloop = "*"
 sqlitedict = "*"
 hikari = {extras = ["speedups"], version = "*"}
 hikari-lightbulb = "*"
+hikari-miru = "*"
 
 [tool.poetry.dev-dependencies]
 black = "*"

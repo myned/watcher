@@ -28,5 +28,5 @@ async def on_error(event):
 
 
 tasks.load(bot)
-bot.load_extensions_from("tasks")
+bot.load_extensions_from("commands", "tasks")
 bot.run(activity=hikari.Activity(name=c.config["activity"], type=c.ACTIVITY) if c.config["activity"] else None)
