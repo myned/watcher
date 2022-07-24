@@ -24,7 +24,6 @@ async def check_activity():
                 if c.config["inactive"] and c.config["inactive"] not in member.role_ids:
                     await member.add_role(c.config["inactive"])
             except hikari.NotFoundError:
-                print(f"Member {author_id} not found. Deleting entry...")
                 del c.db[author_id]
 
 
