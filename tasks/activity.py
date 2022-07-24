@@ -14,14 +14,18 @@ plugin = lightbulb.Plugin("activity")
 async def check_activity():
     for author_id, timestamp in c.db.items():
         if dt.datetime.now(dt.timezone.utc) - timestamp >= dt.timedelta(seconds=c.config["duration"]):
-            member = plugin.bot.cache.get_member(c.config["guild"], author_id) or await plugin.bot.rest.fetch_member(
-                c.config["guild"], author_id
-            )
+            try:
+                member = plugin.bot.cache.get_member(
+                    c.config["guild"], author_id
+                ) or await plugin.bot.rest.fetch_member(c.config["guild"], author_id)
 
-            if c.config["active"] and c.config["active"] in member.role_ids:
-                await member.remove_role(c.config["active"])
-            if c.config["inactive"] and c.config["inactive"] not in member.role_ids:
-                await member.add_role(c.config["inactive"])
+                if c.config["active"] and c.config["active"] in member.role_ids:
+                    await member.remove_role(c.config["active"])
+                if c.config["inactive"] and c.config["inactive"] not in member.role_ids:
+                    await member.add_role(c.config["inactive"])
+            except hikari.NotFoundError:
+                print(f"Member {author_id} not found. Deleting entry...")
+                del c.db[author_id]
 
 
 # Listener for bot ready
