@@ -13,6 +13,7 @@ plugin = lightbulb.Plugin("activity")
 @tasks.task(s=60)
 async def check_activity():
     for author_id, timestamp in c.db.items():
+        # If time between now and timestamp >= duration
         if dt.datetime.now(dt.timezone.utc) - timestamp >= dt.timedelta(seconds=c.config["duration"]):
             try:
                 # Acquire member object
