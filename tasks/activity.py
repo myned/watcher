@@ -20,6 +20,11 @@ async def check_activity():
                     c.config["guild"], author_id
                 ) or await plugin.bot.rest.fetch_member(c.config["guild"], author_id)
 
+                # Delete member from db if it has excluded role
+                if c.config["exclude"] and c.config["exclude"] in member.role_ids:
+                    del c.db[author_id]
+                    continue
+
                 # Enforce activity roles
                 if c.config["active"] and c.config["active"] in member.role_ids:
                     await member.remove_role(c.config["active"])
