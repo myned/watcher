@@ -45,8 +45,15 @@ async def on_ready(event):
 # Listener for guild messages
 @plugin.listener(hikari.GuildMessageCreateEvent)
 async def on_message(event):
-    # Exclude bots, unselected guild, and excluded role
-    if event.is_bot or event.guild_id != c.config["guild"] or c.config["exclude"] in event.member.role_ids:
+    # Exclude bots and other guilds
+    if event.is_bot or event.guild_id != c.config["guild"]:
+        return
+    # Exclude and remove activity roles from excluded role
+    if c.config["exclude"] in event.member.role_ids:
+        if c.config["active"] in event.member.role_ids:
+            await event.member.remove_role(c.config["active"])
+        if c.config["inactive"] in event.member.role_ids:
+            await event.member.remove_role(c.config["inactive"])
         return
 
     # Insert current timestamp into db
@@ -62,12 +69,15 @@ async def on_message(event):
 # Listener for voice state
 @plugin.listener(hikari.VoiceStateUpdateEvent)
 async def on_voice(event):
-    # Exclude bots, unselected guild, and excluded role
-    if (
-        event.state.member.is_bot
-        or event.guild_id != c.config["guild"]
-        or c.config["exclude"] in event.state.member.role_ids
-    ):
+    # Exclude bots and other guilds
+    if event.state.member.is_bot or event.guild_id != c.config["guild"]:
+        return
+    # Exclude and remove activity roles from excluded role
+    if c.config["exclude"] in event.state.member.role_ids:
+        if c.config["active"] in event.state.member.role_ids:
+            await event.state.member.remove_role(c.config["active"])
+        if c.config["inactive"] in event.state.member.role_ids:
+            await event.state.member.remove_role(c.config["inactive"])
         return
 
     # Insert current timestamp into db
