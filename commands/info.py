@@ -47,8 +47,10 @@ async def limbo(context):
             timeout=600,
         )
         await navigator.send(context.interaction, ephemeral=True)
-    else:
+    elif pages:
         await context.respond(pages[0])
+    else:
+        await context.respond("***All members accounted for***")
 
 
 def load(bot):
