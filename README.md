@@ -82,6 +82,10 @@ git pull
 ```
 poetry update
 ```
+4. Restart systemd user service
+```
+systemctl --user restart watcher
+```
 ## Uninstalling
 1. Stop and disable systemd user service
 ```
