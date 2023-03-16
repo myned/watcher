@@ -9,8 +9,8 @@ import config as c
 plugin = lightbulb.Plugin("activity")
 
 
-# Check every minute if inactive
-@tasks.task(s=60)
+# Check every minute if inactive (or config duration if under 60 secs)
+@tasks.task(s=60 if c.config["duration"] >= 60 else c.config["duration"])
 async def check_activity():
     for author_id, timestamp in c.db.items():
         # If time between now and timestamp >= duration
