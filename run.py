@@ -14,8 +14,14 @@ if os.name != "nt":
 
     uvloop.install()
 
-
-bot = lightbulb.BotApp(token=c.config["token"], intents=hikari.Intents.ALL_GUILDS)
+intents = (
+    hikari.Intents.GUILDS  # limbo
+    | hikari.Intents.GUILD_MEMBERS  # limbo
+    | hikari.Intents.GUILD_MESSAGES  # activity
+    | hikari.Intents.GUILD_MESSAGE_TYPING  # activity
+    | hikari.Intents.GUILD_VOICE_STATES  # activity
+)
+bot = lightbulb.BotApp(token=c.config["token"], intents=intents)
 
 
 # Listener for global exceptions
