@@ -33,6 +33,7 @@ cd Watcher
 poetry run python -OO run.py
 ```
 ## Setup
+### Starting
 Run to create `config.toml`\
 The file will automatically generate if it does not exist
 ```
@@ -45,6 +46,14 @@ active = 0 # active role id
 inactive = 0 # inactive role id
 duration = 0 # time in seconds before considered inactive
 ```
+### Inviting
+1. Setup a bot application at Discord's [developer portal](https://discord.com/developers/applications)
+2. Under General Information, paste `APPLICATION ID` into `config.toml` > `client`
+3. Under Bot, click `Add Bot`
+4. Under Bot, enable `SERVER MEMBERS INTENT` (necessary for limbo command)
+5. Under Bot, paste `TOKEN` into `config.toml` > `token`
+6. Under OAuth2 > URL Generator, check `SCOPES` > `bot` and `BOT PERMISSIONS` > `Manage Roles`
+7. Paste generated URL into a browser to invite the bot
 ### systemd service
 Run in the background on most Linux machines\
 This assumes that the project folder is located at `~/.git/Watcher`\
