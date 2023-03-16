@@ -42,52 +42,46 @@ async def on_ready(event):
     check_activity.start()
 
 
-# Listener for guild messages
-@plugin.listener(hikari.GuildMessageCreateEvent)
-async def on_message(event):
+# Check activity and update timestamp
+async def update_activity(event, member):
     # Exclude bots and other guilds
-    if event.is_bot or event.guild_id != c.config["guild"]:
+    if member.is_bot or event.guild_id != c.config["guild"]:
         return
+
     # Exclude and remove activity roles from excluded role
-    if c.config["exclude"] in event.member.role_ids:
-        if c.config["active"] in event.member.role_ids:
-            await event.member.remove_role(c.config["active"])
-        if c.config["inactive"] in event.member.role_ids:
-            await event.member.remove_role(c.config["inactive"])
+    if c.config["exclude"] in member.role_ids:
+        if c.config["active"] in member.role_ids:
+            await member.remove_role(c.config["active"])
+        if c.config["inactive"] in member.role_ids:
+            await member.remove_role(c.config["inactive"])
         return
 
     # Insert current timestamp into db
-    c.db[event.author_id] = dt.datetime.now(dt.timezone.utc)  # or event.message.timestamp
+    c.db[member.id] = dt.datetime.now(dt.timezone.utc)
 
     # Toggle activity roles
-    if c.config["active"] not in event.member.role_ids:
-        await event.member.add_role(c.config["active"])
-    if c.config["inactive"] in event.member.role_ids:
-        await event.member.remove_role(c.config["inactive"])
+    if c.config["active"] not in member.role_ids:
+        await member.add_role(c.config["active"])
+    if c.config["inactive"] in member.role_ids:
+        await member.remove_role(c.config["inactive"])
+
+
+# Listener for guild messages
+@plugin.listener(hikari.GuildMessageCreateEvent)
+async def on_message(event):
+    await update_activity(event, event.member)
+
+
+# Listener for guild typing
+@plugin.listener(hikari.GuildTypingEvent)
+async def on_typing(event):
+    await update_activity(event, event.member)
 
 
 # Listener for voice state
 @plugin.listener(hikari.VoiceStateUpdateEvent)
 async def on_voice(event):
-    # Exclude bots and other guilds
-    if event.state.member.is_bot or event.guild_id != c.config["guild"]:
-        return
-    # Exclude and remove activity roles from excluded role
-    if c.config["exclude"] in event.state.member.role_ids:
-        if c.config["active"] in event.state.member.role_ids:
-            await event.state.member.remove_role(c.config["active"])
-        if c.config["inactive"] in event.state.member.role_ids:
-            await event.state.member.remove_role(c.config["inactive"])
-        return
-
-    # Insert current timestamp into db
-    c.db[event.state.user_id] = dt.datetime.now(dt.timezone.utc)  # or event.message.timestamp
-
-    # Toggle activity roles
-    if c.config["active"] not in event.state.member.role_ids:
-        await event.state.member.add_role(c.config["active"])
-    if c.config["inactive"] in event.state.member.role_ids:
-        await event.state.member.remove_role(c.config["inactive"])
+    await update_activity(event, event.state.member)
 
 
 def load(bot):
