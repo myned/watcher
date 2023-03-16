@@ -44,8 +44,8 @@ async def on_ready(event):
 
 # Check activity and update timestamp
 async def update_activity(event, member):
-    # Exclude bots and other guilds
-    if member.is_bot or event.guild_id != c.config["guild"]:
+    # Exclude other guilds
+    if event.guild_id != c.config["guild"]:
         return
 
     # Exclude and remove activity roles from excluded role
@@ -69,19 +69,25 @@ async def update_activity(event, member):
 # Listener for guild messages
 @plugin.listener(hikari.GuildMessageCreateEvent)
 async def on_message(event):
-    await update_activity(event, event.member)
+    # Exclude bots and webhooks
+    if event.is_human:
+        await update_activity(event, event.member)
 
 
 # Listener for guild typing
 @plugin.listener(hikari.GuildTypingEvent)
 async def on_typing(event):
-    await update_activity(event, event.member)
+    # Exclude bots
+    if not event.member.is_bot:
+        await update_activity(event, event.member)
 
 
 # Listener for voice state
 @plugin.listener(hikari.VoiceStateUpdateEvent)
 async def on_voice(event):
-    await update_activity(event, event.state.member)
+    # Exclude bots
+    if not event.state.member.is_bot:
+        await update_activity(event, event.state.member)
 
 
 def load(bot):
