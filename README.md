@@ -13,11 +13,11 @@ Linux is used for the following commands\
 ## Installing
 1. Clone repository
 ```
-git clone https://github.com/Myned/Watcher.git
+git clone https://github.com/Myned/watcher.git
 ```
 2. Go to project folder
 ```
-cd Watcher
+cd watcher
 ```
 3. Create a virtual environment and install dependencies
 ```
@@ -26,7 +26,7 @@ poetry install
 ## Usage
 1. Go to project folder
 ```
-cd Watcher
+cd watcher
 ```
 2. Run with optimizations
 ```
@@ -56,11 +56,11 @@ duration = 0 # time in seconds before considered inactive
 7. Paste generated URL into a browser to invite the bot
 ### systemd service
 Run in the background on most Linux machines\
-This assumes that the project folder is located at `~/.git/Watcher`\
+This assumes that the project folder is located at `~/.git/watcher`\
 Change the `WorkingDirectory` path in `watcher.service` if this is not the case
 1. Go to project folder
 ```
-cd Watcher
+cd watcher
 ```
 2. Copy user service file
 ```
@@ -85,7 +85,7 @@ sudo loginctl enable-linger username
 ## Updating
 1. Go to project folder
 ```
-cd Watcher
+cd watcher
 ```
 2. Pull changes from repository
 ```
@@ -114,7 +114,7 @@ sudo loginctl disable-linger username
 ```
 4. Remove project folder
 ```
-rm -rf Watcher
+rm -rf watcher
 ```
 ## Contributing
 1. [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) this repository on GitHub
