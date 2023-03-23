@@ -80,7 +80,7 @@ systemctl --user enable --now watcher
 ```
 6. Enable lingering to start user services on boot
 ```
-sudo loginctl enable-linger username
+sudo loginctl enable-linger $(whoami)
 ```
 ## Updating
 1. Go to project folder
