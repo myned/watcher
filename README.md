@@ -52,7 +52,7 @@ duration = 0 # time in seconds before considered inactive
 3. Under Bot, click `Add Bot`
 4. Under Bot, enable `SERVER MEMBERS INTENT` (necessary for limbo command)
 5. Under Bot, paste `TOKEN` into `config.toml` > `token`
-6. Under OAuth2 > URL Generator, check `SCOPES` > `bot` and `BOT PERMISSIONS` > `Manage Roles`
+6. Under OAuth2 > URL Generator, check `SCOPES` > `bot` and `BOT PERMISSIONS` > `Manage Roles` and `Read Messages/View Channels`
 7. Paste generated URL into a browser to invite the bot
 ### systemd service
 Run in the background on most Linux machines\
