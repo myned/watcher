@@ -34,7 +34,7 @@ async def on_error(event):
     raise event.exception
 
 
-miru.install(bot)
+miru.Client(bot)
 tasks.load(bot)
 bot.load_extensions_from("commands", "tasks")
 bot.run(activity=hikari.Activity(name=c.config["activity"], type=c.ACTIVITY) if c.config["activity"] else None)
