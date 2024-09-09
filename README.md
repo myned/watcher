@@ -1,8 +1,6 @@
 # Watcher
 An experimental [Hikari](https://www.hikari-py.dev) Discord bot for assigning active and inactive roles based on member activity
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/B0B1AUB66)
-
 ## Prerequisites
 Linux is used for the following commands\
 [WSL](https://docs.microsoft.com/en-us/windows/wsl) can be used to run Linux on Windows, but is not required to run the bot
